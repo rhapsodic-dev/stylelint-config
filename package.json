@@ -1,0 +1,99 @@
+{
+  "name": "@rhapsodic/stylelint-config",
+  "version": "0.1.0",
+  "description": "Stylelint config for Rhapsodic projects",
+  "license": "MIT",
+  "type": "module",
+  "author": {
+    "name": "rhapsodic.dev",
+    "email": "rhapsodic.dev@gmail.com",
+    "url": "https://github.com/rhapsodic-dev"
+  },
+  "contributors": [
+    {
+      "name": "Svyatoslav Fyodorov",
+      "email": "intelrug@gmail.com",
+      "url": "https://github.com/intelrug"
+    },
+    {
+      "name": "TrenLok",
+      "email": "trenlok.dev@gmail.com",
+      "url": "https://github.com/trenlok"
+    }
+  ],
+  "homepage": "https://github.com/rhapsodic-dev/stylelint-config.git#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhapsodic-dev/stylelint-config.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rhapsodic-dev/stylelint-config/issues"
+  },
+  "exports": {
+    ".": {
+      "import": "./index.js"
+    },
+    "./base": {
+      "import": "./configs/base.js"
+    },
+    "./scss": {
+      "import": "./configs/scss.js"
+    },
+    "./vue": {
+      "import": "./configs/vue.js"
+    }
+  },
+  "main": "./index.js",
+  "module": "./index.js",
+  "files": [
+    "configs",
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "lint": "stylelint \"fixtures/**/*.{css,scss,vue,html}\"",
+    "test": "pnpm run lint && pnpm run test:rules && pnpm run test:package",
+    "test:rules": "vitest run",
+    "test:package": "stylelint fixtures/basic.css --config fixtures/stylelint.config.base.js && stylelint fixtures/basic.scss --config fixtures/stylelint.config.scss.js && stylelint fixtures/basic.vue --config fixtures/stylelint.config.vue.js && stylelint fixtures/basic.vue --config fixtures/stylelint.config.package.js",
+    "release": "bumpp",
+    "prepare": "pnpm run hooks:install",
+    "hooks:install": "pnpm exec simple-git-hooks"
+  },
+  "keywords": [
+    "stylelint-config",
+    "stylelint",
+    "scss",
+    "vue"
+  ],
+  "peerDependencies": {
+    "stylelint": "^17.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "21.0.2",
+    "@commitlint/config-conventional": "21.0.2",
+    "bumpp": "^11.1.0",
+    "lint-staged": "17.0.7",
+    "simple-git-hooks": "2.13.1",
+    "stylelint": "^17.12.0",
+    "vitest": "^4.1.8"
+  },
+  "dependencies": {
+    "@stylistic/stylelint-config": "^5.0.0",
+    "postcss-html": "^1.8.0",
+    "postcss-scss": "^4.0.9",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^3.0.0",
+    "stylelint-high-performance-animation": "^2.0.0",
+    "stylelint-order": "^8.1.1"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "pnpm exec commitlint --edit",
+    "pre-commit": "pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "*.{css,scss,vue,html}": "stylelint --fix"
+  },
+  "packageManager": "pnpm@11.5.2+sha512.71c631e382066efc25625d5cf029075de07b61b37f6e27350fbd84b1bda5864c8c1967adc280776b45c30a715c0359a3be08fef42d5bb09e2b99029979692916"
+}
