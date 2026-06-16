@@ -287,6 +287,31 @@ const validRuleCases = [
     codeFilename: 'component.scss',
   },
   {
+    rule: 'at-rule-empty-line-before',
+    code: `
+.button {
+  @extend %placeholder-button;
+  @include buttonStyle($primary-color);
+}
+`,
+    codeFilename: 'component.scss',
+  },
+  {
+    rule: 'at-rule-no-unknown',
+    code: `
+@use 'sass:string';
+
+@mixin buttonStyle($background) {
+  color: $background;
+}
+
+.button {
+  @include buttonStyle(#ffffff);
+}
+`,
+    codeFilename: 'component.scss',
+  },
+  {
     rule: 'scss/at-mixin-pattern',
     code: `
 @mixin BadMixinName {
@@ -367,5 +392,39 @@ describe('@rhapsodic/stylelint-config rules', () => {
 
     expect(ruleNames(warnings)).not.toContain('selector-pseudo-class-no-unknown');
     expect(ruleNames(warnings)).not.toContain('declaration-property-value-no-unknown');
+  });
+
+  it('allows SCSS syntax inside Vue style blocks', async () => {
+    const warnings = await lint(`
+<template>
+  <button class="button" />
+</template>
+
+<style lang="scss" scoped>
+@use 'sass:string';
+
+@function capitalize($string) {
+  @return string.to-upper-case(string.slice($string, 1, 1)) + string.slice($string, 2);
+}
+
+@mixin buttonStyle($background) {
+  padding: 10px 20px;
+  color: #ffffff;
+  background-color: $background;
+  border-radius: 5px;
+}
+
+.button {
+  font-size: $font-size-base;
+
+  @extend %placeholder-button;
+  @include buttonStyle($primary-color);
+}
+</style>
+`, 'component.vue');
+
+    expect(ruleNames(warnings)).not.toContain('at-rule-empty-line-before');
+    expect(ruleNames(warnings)).not.toContain('at-rule-no-unknown');
+    expect(ruleNames(warnings)).not.toContain('scss/at-rule-no-unknown');
   });
 });

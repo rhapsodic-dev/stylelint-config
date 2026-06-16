@@ -1,11 +1,17 @@
 import baseConfig from './base.js';
+import { scssRules } from './scss.js';
 
 export const vueOverride = {
   files: [
     '**/*.{html,vue}',
   ],
+  extends: [
+    'stylelint-config-standard-scss',
+  ],
   customSyntax: 'postcss-html',
   rules: {
+    ...baseConfig.rules,
+    ...scssRules,
     'selector-pseudo-class-no-unknown': [
       true,
       {
