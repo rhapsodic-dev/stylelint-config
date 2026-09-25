@@ -79,7 +79,7 @@
     "lint-staged": "17.5.0",
     "simple-git-hooks": "2.14.0",
     "stylelint": "^17.15.0",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "dependencies": {
     "@stylistic/stylelint-config": "^5.0.0",
